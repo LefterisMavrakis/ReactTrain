@@ -1,10 +1,7 @@
-import {useContext} from 'react';
-import {ItemContext} from "../context/itemContext";
 import {Link} from "react-router-dom";
 import UseItems from "../hooks/use-items";
 
 function CategoryItemList() {
-    // const [items, setItems] = useContext(ItemContext)
     const {items} = UseItems()
 
     return (
@@ -21,11 +18,14 @@ function CategoryItemList() {
                                 <div className="itemName">
                                     {item.item.name}
                                 </div>
+                                <div className="itemName">
+                                    cost: {item.store.cost}
+                                </div>
                             </div>
                         </Link>
                     )
                 }) : 'No items found'
-            })
+            }
         </div>
     );
 }
