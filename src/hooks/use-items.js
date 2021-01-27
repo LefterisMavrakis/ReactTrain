@@ -17,49 +17,59 @@ import {ItemContext} from "../context/itemContext";
 //     }
 // }
 
-export default function UseItems (props) {
-    const [items, setItems, fetchItems, maxCost, minCost, cachedItems ] = useContext(ItemContext)
+export default function UseItems(props) {
+    const [items, setItems, fetchItems, maxCost, minCost] = useContext(ItemContext)
 
     const resetItems = () => {
         setItems([])
     }
 
-    const raritySearch = async (rarityFormItems) => {
-        let itemsToFind = []
-        // await fetchItems().then((data)=> {
-            for (let searchWord of rarityFormItems) {
-                // let itemsToFind = data.filter(item => item.item.rarity === searchWord)
-                cachedItems.forEach((item, index) => {
-                    if (item.item.rarity === searchWord) {
-                        itemsToFind.push(item)
+    const makeFiltering = async (filterForm) => {
+
+        await fetchItems().then(async (data) => {
+            const searchByNameItems = filterForm.searchTerm !== "" ? data.filter(item => item.item.name.toLowerCase().includes(filterForm.searchTerm.toLowerCase())) : null
+            let searchByRarityItems = []
+            if (searchByNameItems !== null) {
+                searchByNameItems.forEach(item => {
+                    if (filterForm.rarityCheck.size > 0) {
+                        for (let rarityValue of filterForm.rarityCheck) {
+                            if (item.item.rarity === rarityValue && item.store.cost <= filterForm.priceRange) {
+                                searchByRarityItems.push(item)
+                            }
+                            // if (item.item.rarity !== rarityValue) {
+                            //     searchByRarityItems = []
+                            // }
+                        }
+                    } else {
+                        if (item.store.cost <= filterForm.priceRange) {
+                            searchByRarityItems.push(item)
+                        }
+                    }
+                    if (filterForm.rarityCheck.has('all')) {
+                        searchByRarityItems = data
                     }
                 })
-            }
-            if(rarityFormItems.has('all') || rarityFormItems.size === 0) {
-                setItems(cachedItems)
+                setItems(searchByRarityItems)
             } else {
-                setItems(itemsToFind)
-            }
-        // })
-    }
-
-    const handleSearch = async (priceValue, rarityFormItems) => {
-        await fetchItems().then( async (data)=> {
-            if(rarityFormItems.size !== 0) {
-                await raritySearch(rarityFormItems)
-                // this is for price searching
-                setItems(prevItems => {
-                    const itemsToSet = prevItems.filter(item => item.store.cost <= priceValue )
-                    return itemsToSet
+                const newItems = await data.filter((item, index) => {
+                    for (let rarityValue of filterForm.rarityCheck) {
+                        if (item.item.rarity === rarityValue && item.store.cost <= filterForm.priceRange) {
+                            return item
+                        }
+                    }
                 })
-            } else {
-                const itemsToSet = data.filter(item => item.store.cost <= priceValue )
-                setItems(itemsToSet)
+                if (newItems.length > 0 && !filterForm.rarityCheck.has('all')) {
+                    setItems(newItems)
+                } else if (newItems.length === 0 || filterForm.rarityCheck.has('all')) {
+                    setItems(() => {
+                        const newItems = data.filter(item => item.store.cost <= filterForm.priceRange)
+                        return newItems
+                    })
+                }
+
             }
-
         })
-
     }
 
-    return {items, resetItems,fetchItems, handleSearch, maxCost, minCost}
+    return {items, resetItems, fetchItems, maxCost, minCost, makeFiltering}
 }

@@ -102,6 +102,6 @@ button {
 
 }
 button:hover {
-  background-color: aquamarine;
-  color: rgb(73, 79, 82);
+  background-color: #7bb141;
+  color: #F1F4EF;
 }

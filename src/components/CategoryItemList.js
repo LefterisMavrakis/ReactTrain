@@ -12,11 +12,14 @@ function CategoryItemList() {
                         <Link to={`/shop/${item.itemId}`} key={item.itemId}>
                             <div className='item'>
                                 {item.item.images ?  <div className="itemImage">
-                                    <img src={item.item.images.icon} alt="Item Image"/>
+                                    <img src={item.item.images.icon} alt="Item"/>
                                 </div> : '' }
 
                                 <div className="itemName">
                                     {item.item.name}
+                                </div>
+                                <div className="itemName">
+                                    rarity: {item.item.rarity}
                                 </div>
                                 <div className="itemName">
                                     cost: {item.store.cost}
