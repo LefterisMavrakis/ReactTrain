@@ -44,7 +44,7 @@ nav {
   width: 80%;
   background-color: #ffffff;
 }
-.itemsWrapper > a {
+.itemsWrapper > .item {
   width: calc(20% - 30px);
   background-color: rgb(73, 79, 82);
   text-decoration: none;
