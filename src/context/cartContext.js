@@ -13,8 +13,16 @@ export const CartStateContext = createContext()
 // }
 
 export function CartContextProvider(props) {
-    const [cartItems, setCartItems] = useState([])
-    const [cartTotal, setCartTotal] = useState(0)
+    // const [cartItems, setCartItems] = useState([])
+    const [cartItems, setCartItems] = useState(()=>{
+        const cachedCart = window.localStorage.getItem('cart')
+        return cachedCart ? JSON.parse(cachedCart) : []
+    })
+    // const [cartTotal, setCartTotal] = useState(0)
+    const [cartTotal, setCartTotal] = useState(()=>{
+        const cachedCartTotal = window.localStorage.getItem('cartTotal')
+        return cachedCartTotal ? JSON.parse(cachedCartTotal) : 0
+    })
     // const cartInitialState = {items:[], total: 0}
     // const [cart, dispatch] = useReducer(cartReducer, cartInitialState  )
     // useEffect(()=>{

@@ -16,17 +16,18 @@ function Nav() {
     // console.log(cart)
     return (
         <nav className="Nav">
-                <h3>Logo</h3>
-                <ul className="nav-links">
+                <div>Logo</div>
+                <div className="nav-links ">
                     <Link style={navStyle} to={'/about'}>
-                        <li>About</li>
+                        <div>About</div>
                     </Link>
                     <Link style={navStyle} to={'/shop'}>
-                        <li>Shop</li>
+                        <div>Shop</div>
                     </Link>
-
+                </div>
+                <div className="positionCart">
                     {cartItems ? <Cart/> : 'cart null'}
-                </ul>
+                </div>
         </nav>
     );
 }
