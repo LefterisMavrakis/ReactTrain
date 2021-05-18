@@ -1,19 +1,18 @@
 import {Link} from "react-router-dom";
 import UseCart from "../hooks/use-cart";
-import {useCallback} from 'react'
-import UseItems from "../hooks/use-items";
-import UseElementVisibility from "../hooks/use-element-visibility";
+import {useState, useEffect} from 'react'
+import useButtonPress from "../hooks/use-button-press";
 
 function CategoryItem({item}) {
     const {addToCart} = UseCart()
+    const {buttonPress, handleMouseDown, handleMouseUp} = useButtonPress()
 
     const handleAddToCart = (e, cartItem) => {
         e.stopPropagation()
         addToCart(cartItem)
     }
-
     return (
-        <div className='item'>
+        <div className={'item ' + item.item.rarity }>
             {/*<Link to={`/shop/${item.itemId}`}>*/}
                 {item.item.images ?
                     <div className="itemImage" style={ {"backgroundImage" : `url(${item.item.images.icon})`} } >
@@ -31,7 +30,9 @@ function CategoryItem({item}) {
                     cost: {item.store.cost}
                 </div>
             </div>
-            <button onClick={(e) => handleAddToCart(e, item)}> Add to Cart</button>
+            <div onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} className={'addToCartBtn'} onClick={(e) => handleAddToCart(e, item)}>
+                <button className={buttonPress}>Add to Cart</button>
+            </div>
         </div>
     );
 }

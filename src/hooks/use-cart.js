@@ -22,16 +22,46 @@ export default function UseCart(props) {
             cartItem.quantityCost = cartItem.store.cost
             cartItemsToSet.push(cartItem)
         }
-        // setCartItems(prevCartItems => [...prevCartItems, cartItem])
         setCartItems(cartItemsToSet)
-        window.localStorage.setItem('cart', JSON.stringify(cartItems));
+        handleCartTotal()
+    }
+
+    const removeFromCart = (item) => {
+        if (item.quantity > 1) {
+            decreaseCartProductQuantity(item)
+            handleCartTotal()
+        } else {
+            deleteCartProduct(item)
+            handleCartTotal()
+        }
+
+    }
+
+    const deleteCartProduct = (item) => {
+        let cartItemsToSet = []
+        const cartItemsToFind = cartItems
+        cartItemsToFind.find(cartItem => cartItem.itemId === item.itemId).quantity = 0
+        cartItemsToFind.find(cartItem => cartItem.itemId === item.itemId).quantityCost = 0
+        cartItemsToSet = cartItemsToFind.filter(cartItem => cartItem.itemId !== item.itemId)
+        setCartItems(cartItemsToSet)
+        handleCartTotal()
+    }
+
+    const decreaseCartProductQuantity = (item) => {
+        const cartItemsToSet = cartItems
+        cartItemsToSet.find(cartItem => cartItem.itemId === item.itemId).quantity--
+        cartItemsToSet.find(cartItem => cartItem.itemId === item.itemId).quantityCost =
+            cartItemsToSet.find(cartItem => cartItem.itemId === item.itemId).store.cost *
+            cartItemsToSet.find(cartItem => cartItem.itemId === item.itemId).quantity
+        setCartItems(cartItemsToSet)
+    }
+
+    const handleCartTotal = () => {
         const total = cartItems.reduce((acc, item)=> {
             return acc + item.quantityCost
         }, 0)
         setCartTotal(total)
-        window.localStorage.setItem('cartTotal', JSON.stringify(total));
     }
 
-
-    return {cartItems, addToCart, cartTotal}
+    return {cartItems, addToCart, removeFromCart, cartTotal}
 }

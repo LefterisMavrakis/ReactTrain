@@ -1,4 +1,4 @@
-import {createContext, useState} from 'react'
+import {createContext, useState, useEffect} from 'react'
 export const CartStateContext = createContext()
 // function cartReducer(state, action) {
 //     switch (action.type) {
@@ -35,6 +35,10 @@ export function CartContextProvider(props) {
     //     //     total: 0
     //     // })
     // },[])
+    useEffect(() => {
+        window.localStorage.setItem('cart', JSON.stringify(cartItems));
+        window.localStorage.setItem('cartTotal', JSON.stringify(cartTotal));
+    });
     return (
         <CartStateContext.Provider value={[cartItems, setCartItems, cartTotal, setCartTotal]}>
             {props.children}

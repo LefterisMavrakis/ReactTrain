@@ -5,11 +5,24 @@ import UseElementVisibility from "../hooks/use-element-visibility";
 
 
 function Cart() {
-    const {cartItems, cartTotal} = UseCart()
+    const {cartItems, cartTotal, addToCart, removeFromCart} = UseCart()
     const {visibility, toggleVisibility} = UseElementVisibility()
     const visibilityClass = visibility === true ? 'visible' : ''
+    const handleIncrease = (e,item) => {
+        e.stopPropagation()
+        e.preventDefault()
+        addToCart(item)
+    }
+    const handleDecrease = (e,item) => {
+        e.stopPropagation()
+        e.preventDefault()
+        if(cartItems.length === 1 && item.quantity === 1 ) {
+            toggleVisibility()
+        }
+        removeFromCart(item)
 
-    console.log(visibility)
+    }
+
     return (
         <div className="cartWrapper">
             <div className="cartIconWrapper" onClick={toggleVisibility}>
@@ -41,7 +54,7 @@ function Cart() {
                                             Price: {item.store.cost}
                                         </div>
                                         <div className="cartItemQuantity">
-                                            Quantity: {item.quantity}
+                                            Quantity: <span onClick={(e)=>handleDecrease(e,item)}> - </span> {item.quantity} <span style={{position: "relative"}} onClick={(e)=>handleIncrease(e,item)}> + </span>
                                         </div>
                                     </div>
 

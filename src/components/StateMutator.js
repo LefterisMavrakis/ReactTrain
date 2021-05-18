@@ -87,13 +87,13 @@ function StateMutator() {
 
     return (
         <div className='actionsBar'>
-            <h2>Actions</h2>
-            <div className="actionButtonsWrapper">
-                <button onClick={resetItems}>RESET ITEMS</button>
-                {/*<button onClick={resetItems2}>RESET ITEMS FROM ANOTHER HOOK</button>*/}
-                <button style={{marginLeft:30}} onClick={fetchItems}>REFETCH ITEMS</button>
-                {/*<button onClick={fetchItems2}>REFETCH ITEMS FROM ANOTHER HOOK</button>*/}
-            </div>
+            {/*<h2>Actions</h2>*/}
+            {/*<div className="actionButtonsWrapper">*/}
+            {/*    <button onClick={resetItems}>RESET ITEMS</button>*/}
+            {/*    /!*<button onClick={resetItems2}>RESET ITEMS FROM ANOTHER HOOK</button>*!/*/}
+            {/*    <button style={{marginLeft:30}} onClick={fetchItems}>REFETCH ITEMS</button>*/}
+            {/*    /!*<button onClick={fetchItems2}>REFETCH ITEMS FROM ANOTHER HOOK</button>*!/*/}
+            {/*</div>*/}
             <h2>Filters</h2>
             <div className="filtersWrapper">
                 <form onSubmit={(e) => handleFiltersForm(e,filterForm)}>
