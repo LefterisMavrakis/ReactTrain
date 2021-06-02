@@ -1,12 +1,15 @@
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import UseCart from "../hooks/use-cart";
-import UseItems from "../hooks/use-items";
+// import UseItems from "../hooks/use-items";
 // import {CartContext} from "../context/cartContext";
 import Cart from "./Cart";
+import {useLocation} from 'react-router-dom';
 
 function Nav() {
-    const {items} = UseItems()
+    // const {items} = UseItems()
     const {cartItems} = UseCart()
+    const location = useLocation()
+    console.log(location)
 
 
     // const {cart} = useCart()
@@ -16,14 +19,14 @@ function Nav() {
     // console.log(cart)
     return (
         <nav className="Nav">
-                <div>Logo</div>
+                <div className={'appLogo'} style={{width:'150px'}}><img src={'./fortnite_logo.png'} alt="App Logo"/></div>
                 <div className="nav-links ">
-                    <Link style={navStyle} to={'/about'}>
+                    <NavLink style={navStyle} to={'/about'}>
                         <div>About</div>
-                    </Link>
-                    <Link style={navStyle} to={'/shop'}>
+                    </NavLink>
+                    <NavLink style={navStyle} to={'/shop'}>
                         <div>Shop</div>
-                    </Link>
+                    </NavLink>
                 </div>
                 <div className="positionCart">
                     {cartItems ? <Cart/> : 'cart null'}

@@ -4,9 +4,20 @@ import UseItems from "../hooks/use-items";
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
+window.addEventListener('scroll', function() {
+    const actionBar = document.getElementById('actionBar')
+    const actionBarOffset = actionBar.getBoundingClientRect()
+    console.log(actionBarOffset)
+    if(actionBarOffset.top <= 20) {
+        actionBar.classList.add('fixed')
+    } else {
+        actionBar.classList.remove('fixed')
+    }
+})
+
 function StateMutator() {
     // const [items, setItems] = useContext(ItemContext)
-    const { resetItems, fetchItems, maxCost, minCost, makeFiltering} = UseItems()
+    const {fetchItems, maxCost, minCost, makeFiltering} = UseItems()
     // const [resetItems2, fetchItems2] = UseAnotherHook()
     const [rarityFormItems, setRarityFormItems] = useState(new Set())
     const [sliderValue, setSliderValue] = useState(maxCost)
@@ -33,18 +44,14 @@ function StateMutator() {
         setRarityFormItems((previousItems) => {
             const newItems = previousItems
             if (eventTarget.checked) {
-
                 newItems.add(eventTarget.value)
             } else {
-                console.log('here')
                 newItems.delete(eventTarget.value)
             }
             return newItems
-
         })
         filterFormState.rarityCheck = rarityFormItems
         setFilterForm(filterFormState)
-
     }
     const handleSliderOnChange = (value) => {
         setSliderValue(value)
@@ -56,20 +63,20 @@ function StateMutator() {
         // await handleFiltersForm(null,filterForm)
     }
     const handleResetForm = (e) => {
-        e.preventDefault()
+        if(searchName!== '' || sliderValue !== maxCost || rarityFormItems.size > 0 ) {
+            fetchItems()
+        }
         setSearchName('')
-        fetchItems()
         setSliderValue(maxCost)
-        const newWordSet = new Set(rarityFormItems)
-        newWordSet.clear()
-        setRarityFormItems(newWordSet)
-        filterFormState.rarityCheck = newWordSet
-        console.log('FROMRESET:  ',filterFormState)
+        setRarityFormItems(new Set())
+        filterFormState.rarityCheck = new Set()
+        filterFormState.priceRange = maxCost
+        filterFormState.searchTerm = ''
         setFilterForm(filterFormState)
-        e.target.form.reset()
+
+
     }
     const handleFiltersForm = async (e=null, filterForm = null) => {
-        console.log('handleFiltersForm:  ',filterForm)
         if(e!==null){
             e.preventDefault()
         }
@@ -86,7 +93,7 @@ function StateMutator() {
 
 
     return (
-        <div className='actionsBar'>
+        <div className='actionsBar' id={'actionBar'}>
             {/*<h2>Actions</h2>*/}
             {/*<div className="actionButtonsWrapper">*/}
             {/*    <button onClick={resetItems}>RESET ITEMS</button>*/}
@@ -96,7 +103,7 @@ function StateMutator() {
             {/*</div>*/}
             <h2>Filters</h2>
             <div className="filtersWrapper">
-                <form onSubmit={(e) => handleFiltersForm(e,filterForm)}>
+                <form onSubmit={(e) => handleFiltersForm(e,filterForm)} onReset={(e)=>handleResetForm(e)}>
                     <div className="searchByNameWrapper">
                         <h3>Search by name</h3>
                         <input type='text' value={searchName} onChange={ (e) => handleSearchName(e) }/>
@@ -107,26 +114,26 @@ function StateMutator() {
                                 <h3>Rarity</h3>
                             </div>
                             <div className="rarityFilter">
-                                <input type='checkbox' onChange={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='epicRarityFilter' value='epic'/>
-                                <label htmlFor='epicRarityFilter'>
+                                <input  type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='epicRarityFilter' value='epic'/>
+                                <label className={'rarityCheckbox'} htmlFor='epicRarityFilter'>
                                     Epic
                                 </label>
                             </div>
                             <div className="rarityFilter">
-                                <input type='checkbox' onChange={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='rareRarityFilter' value='rare'/>
-                                <label htmlFor='rareRarityFilter'>
+                                <input type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='rareRarityFilter' value='rare'/>
+                                <label className={'rarityCheckbox'} htmlFor='rareRarityFilter'>
                                     Rare
                                 </label>
                             </div>
                             <div className="rarityFilter">
-                                <input type='checkbox' onChange={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='uncommonRarityFilter' value='uncommon'/>
-                                <label htmlFor='uncommonRarityFilter'>
+                                <input type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='uncommonRarityFilter' value='uncommon'/>
+                                <label className={'rarityCheckbox'} htmlFor='uncommonRarityFilter'>
                                     Uncommon
                                 </label>
                             </div>
                             <div className="rarityFilter">
-                                <input type='checkbox' onChange={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='allRarityFilter' value='all'/>
-                                <label htmlFor='allRarityFilter'>
+                                <input type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='allRarityFilter' value='all'/>
+                                <label className={'rarityCheckbox'} htmlFor='allRarityFilter'>
                                     All
                                 </label>
                             </div>
@@ -142,7 +149,7 @@ function StateMutator() {
                                     labels={sliderLayers}
                                 />
                                 : ''}
-                        {/*<button style={{marginTop: 70}} onClick={handleResetForm}>RESET</button>*/}
+                        <button style={{marginTop: 70, marginRight: 5}} type="reset">RESET</button>
                         <button style={{marginTop: 70}} type='submit' value='submit'>SUBMIT FILTERS</button>
                     </div>
                 </form>

@@ -10,8 +10,11 @@ function Shop() {
             <div className='containerWrapper'>
                 <h1>Shop Page</h1>
                 <div className='container'>
+                    <div className="catalogWrapper">
                         <StateMutator/>
                         <CategoryItemList/>
+                    </div>
+
                 </div>
             </div>
     );

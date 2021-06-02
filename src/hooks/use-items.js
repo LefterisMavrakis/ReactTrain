@@ -1,7 +1,5 @@
 import { useContext} from 'react'
 import {ItemContext} from "../context/itemContext";
-import {CartStateContext} from "../context/cartContext";
-import UseCart from "./use-cart";
 
 // function itemsReducer(state, action) {
 //     switch (action.type) {

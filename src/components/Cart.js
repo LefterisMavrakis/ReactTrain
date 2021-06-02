@@ -1,6 +1,6 @@
 import UseCart from "../hooks/use-cart";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faShoppingCart} from "@fortawesome/free-solid-svg-icons";
+import {faShoppingCart, faPlus, faMinus} from "@fortawesome/free-solid-svg-icons";
 import UseElementVisibility from "../hooks/use-element-visibility";
 
 
@@ -51,10 +51,19 @@ function Cart() {
                                             {item.item.name}
                                         </div>
                                         <div className="cartItemCost">
-                                            Price: {item.store.cost}
+                                            Price: {item.store ? item.store.cost : item.cost }
                                         </div>
                                         <div className="cartItemQuantity">
-                                            Quantity: <span onClick={(e)=>handleDecrease(e,item)}> - </span> {item.quantity} <span style={{position: "relative"}} onClick={(e)=>handleIncrease(e,item)}> + </span>
+                                            Quantity:
+                                            <div className={'quantityBtn'} onClick={(e)=>handleDecrease(e,item)}>
+                                                <FontAwesomeIcon icon={faMinus} size="sm" color={'#000000'} />
+                                            </div>
+                                            <div className={'cartItemQuantityValue'}>
+                                                {item.quantity}
+                                            </div>
+                                            <div className={'quantityBtn'} style={{position: "relative"}} onClick={(e)=>handleIncrease(e,item)}>
+                                                <FontAwesomeIcon icon={faPlus} size="sm" color={'#000000'} />
+                                            </div>
                                         </div>
                                     </div>
 

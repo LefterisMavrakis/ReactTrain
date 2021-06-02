@@ -1,9 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+
+.flex {
+  display: flex;
+}
+
 .App {
   text-align: left;
   background-color: #f2f2f2;
-  padding: 0 0 100px;
+  font-family: 'Odibee Sans', cursive;
+  font-size: 20px;
+  min-height: 100vh;
 }
-
+button {
+  font-family: 'Odibee Sans', cursive;
+  font-size: 16px;
+}
 nav {
   display: flex;
   justify-content: space-around;
@@ -18,9 +29,31 @@ nav {
 .nav-links {
   width: 50%;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   list-style: none;
+
+}
+.nav-links > a {
+  text-decoration: none;
+  margin: 0 20px 0 0;
+  font-family: 'Odibee Sans', cursive;
+  font-size: 40px;
+  position: relative;
+}
+.nav-links > a:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 5px;
+  background-color: #242b2b;
+  transition: all 0.3s ease;
+  bottom: 0;
+}
+.nav-links > a:hover:before,
+.nav-links > a.active:before {
+  width: 100%;
 }
 .positionCart, .cartIconWrapper, .cartWrapper, .cartIcon {
   position: relative;
@@ -112,8 +145,12 @@ nav {
   max-width: 1600px;
   margin: 0 0 0 0;
   display: flex;
+  justify-content: center;
 }
-
+.containerPage {
+  position: relative;
+  width: 100%;
+}
 .itemsWrapper {
   padding: 20px 10px;
   box-sizing: border-box;
@@ -121,6 +158,7 @@ nav {
   flex-wrap: wrap;
   width: 80%;
   background-color: #ffffff;
+  margin: 0 0 100px;
 }
 .itemsWrapper > .item {
   width: calc(20% - 20px);
@@ -162,7 +200,7 @@ nav {
 }
 .addToCartBtn {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   margin: auto 0 0;
   position: relative;
 }
@@ -185,6 +223,48 @@ nav {
   background-color: #7bb141;
   color: #F1F4EF;
 }
+.cartItemQuantity {
+  display: flex;
+}
+.cartItemQuantityValue {
+  width: auto;
+  min-width: 20px;
+  background-color: #ffffff;
+  color: #000000;
+  height: 20px;
+  text-align: center;
+}
+.cartItemQuantity > div.quantityBtn {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  background-color: #cccccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 3px;
+  text-align: center;
+  cursor: pointer;
+}
+.itemDetails .cartItemQuantity {
+  margin: auto 0 30px;
+}
+.itemDetails .addToCartBtn{
+  margin:0 0 0;
+}
+/*label.rarityCheckbox:after {*/
+/*  content: '\f14a';*/
+/*  font-family: 'Font Awesome 5 Free'*/
+/*}*/
+
+.catalogWrapper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .addToCartBtn:before {
   content: '';
   position: absolute;
@@ -206,6 +286,13 @@ nav {
   box-sizing: border-box;
   background-color: #ffffff;
   align-self: flex-start;
+}
+
+.actionsBar.fixed {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  width: calc(20% - 28px);
 }
 .actionButtonsWrapper {
   display: flex;
@@ -245,4 +332,49 @@ button:hover {
   color: #F1F4EF;
 }
 
-
+/* items details starts */
+.itemDetails {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+.itemDetailsImageWrapper {
+  width: 60%;
+  position: relative;
+  background-color: #dadada;
+}
+.itemDetailsImage {
+  width: 100%;
+  padding: 50% 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.itemsDetailsInfoWrapper {
+  margin: 0 0 0 30px;
+  width: calc(40% - 30px);
+  display: flex;
+  flex-direction: column;
+}
+.itemDetailsDescription {
+  width: 100%;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 0 0 30px;
+  font-style: italic;
+}
+.itemDetailsVideo {
+  position: relative;
+  width: 100%;
+  margin: 0 0 30px;
+}
+/* items details ends */
+/* about page starts */
+.aboutInfo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 30px;
+}
+/* about page ends */

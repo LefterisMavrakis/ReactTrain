@@ -28,7 +28,7 @@ export function ItemContextProvider(props) {
     }
     useEffect(() => {
         fetchItems()
-    }, [])
+    },[])
     return (
         <ItemContext.Provider value={[items, setItems, fetchItems, maxCost, minCost, cachedItems]}>
             {props.children}

@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import UseCart from "../hooks/use-cart";
-import {useState, useEffect} from 'react'
+// import {useState, useEffect} from 'react'
 import useButtonPress from "../hooks/use-button-press";
 
 function CategoryItem({item}) {
@@ -13,12 +13,12 @@ function CategoryItem({item}) {
     }
     return (
         <div className={'item ' + item.item.rarity }>
-            {/*<Link to={`/shop/${item.itemId}`}>*/}
+            <Link to={`/shop/${item.itemId}`}>
                 {item.item.images ?
                     <div className="itemImage" style={ {"backgroundImage" : `url(${item.item.images.icon})`} } >
                     </div>
                     : ''}
-            {/*</Link>*/}
+            </Link>
             <div className="categoryItemInfo">
                 <div className={"itemName"}>
                     {item.item.name}

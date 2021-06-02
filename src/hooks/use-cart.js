@@ -5,20 +5,21 @@ import {CartStateContext} from "../context/cartContext";
 export default function UseCart(props) {
     const [cartItems,setCartItems, cartTotal, setCartTotal] = useContext(CartStateContext)
 
-    const addToCart = (item) => {
+    const addToCart = (item, quantity=1) => {
+        console.log(item)
         const cartItemsToSet = cartItems
         const cartItem = item
         const sameCartItem = cartItemsToSet.find(cartItem => cartItem.itemId === item.itemId )
         if(sameCartItem){
             cartItemsToSet.forEach(item=>{
                 if(sameCartItem.itemId === item.itemId) {
-                    item.quantity++
-                    item.quantityCost = item.store.cost * item.quantity
+                    item.quantity = item.quantity + quantity
+                    item.quantityCost = item.store.cost  * item.quantity
                 }
             })
         }
         else {
-            cartItem.quantity = 1
+            cartItem.quantity = quantity
             cartItem.quantityCost = cartItem.store.cost
             cartItemsToSet.push(cartItem)
         }
@@ -29,11 +30,10 @@ export default function UseCart(props) {
     const removeFromCart = (item) => {
         if (item.quantity > 1) {
             decreaseCartProductQuantity(item)
-            handleCartTotal()
         } else {
             deleteCartProduct(item)
-            handleCartTotal()
         }
+        handleCartTotal()
 
     }
 
@@ -44,7 +44,6 @@ export default function UseCart(props) {
         cartItemsToFind.find(cartItem => cartItem.itemId === item.itemId).quantityCost = 0
         cartItemsToSet = cartItemsToFind.filter(cartItem => cartItem.itemId !== item.itemId)
         setCartItems(cartItemsToSet)
-        handleCartTotal()
     }
 
     const decreaseCartProductQuantity = (item) => {
