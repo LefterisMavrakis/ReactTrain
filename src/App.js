@@ -14,8 +14,7 @@ function App() {
                 <div className="App">
                     <Nav/>
                     <Switch>
-                        <Route path="/" exact component={Home}/>
-                        <Route path="/about" exact component={About}/>
+                        <Route path="/" exact component={About}/>
                         {/*<CartContextProvider>*/}
                         <Route path="/shop" exact component={Shop}/>
                         {/*</CartContextProvider>*/}

@@ -7,8 +7,9 @@ import 'react-rangeslider/lib/index.css'
 window.addEventListener('scroll', function() {
     const actionBar = document.getElementById('actionBar')
     const actionBarOffset = actionBar.getBoundingClientRect()
-    console.log(actionBarOffset)
-    if(actionBarOffset.top <= 20) {
+    const windowOffset =window.pageYOffset
+
+    if(actionBarOffset.top <= 20 && windowOffset >= 168) {
         actionBar.classList.add('fixed')
     } else {
         actionBar.classList.remove('fixed')
