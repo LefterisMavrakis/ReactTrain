@@ -8,7 +8,7 @@ function Shop() {
     // item details will be provide by itemContext.js
     return (
             <div className='containerWrapper'>
-                <h1>Shop Page</h1>
+                <h2 className={'generalTitle'}>Shop Page</h2>
                 <div className='container'>
                     <div className="catalogWrapper">
                         <StateMutator/>

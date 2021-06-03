@@ -15,7 +15,7 @@ function Nav() {
     // console.log(cart)
     return (
         <nav className="Nav">
-                <div className={'appLogo'} style={{width:'150px'}}><img src={'./fortnite_logo.png'} alt="App Logo"/></div>
+                <div className={'appLogo'}><img src={'./fortnite_logo.png'} alt="App Logo"/></div>
                 <div className="nav-links ">
                     <NavLink style={navStyle} to={'/'} exact>
                         <div>Home</div>

@@ -3,18 +3,11 @@ import UseItems from "../hooks/use-items";
 // import UseAnotherHook from "../hooks/use-another-hook";
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFilter, faTimes} from "@fortawesome/free-solid-svg-icons";
+import UseElementVisibility from "../hooks/use-element-visibility";
 
-window.addEventListener('scroll', function() {
-    const actionBar = document.getElementById('actionBar')
-    const actionBarOffset = actionBar.getBoundingClientRect()
-    const windowOffset =window.pageYOffset
 
-    if(actionBarOffset.top <= 20 && windowOffset >= 168) {
-        actionBar.classList.add('fixed')
-    } else {
-        actionBar.classList.remove('fixed')
-    }
-})
 
 function StateMutator() {
     // const [items, setItems] = useContext(ItemContext)
@@ -35,6 +28,9 @@ function StateMutator() {
         [maxCost / 2]: `${maxCost / 2}`,
         [maxCost]: `${maxCost}`
     }
+
+    const {visibility, toggleVisibility} = UseElementVisibility();
+    const visibilityClass = visibility === true ? 'visible' : ''
     const handleSearchName = (e) => {
         e.preventDefault()
         setSearchName(e.target.value)
@@ -74,14 +70,31 @@ function StateMutator() {
         filterFormState.priceRange = maxCost
         filterFormState.searchTerm = ''
         setFilterForm(filterFormState)
-
-
     }
     const handleFiltersForm = async (e=null, filterForm = null) => {
         if(e!==null){
             e.preventDefault()
         }
         await makeFiltering(filterForm)
+    }
+    const stickyFilters = () => {
+        window.addEventListener('scroll', function() {
+            console.log('scrolling')
+            const actionBar = document.getElementById('actionsBarWrapper')
+            if(actionBar){
+                const actionBarOffset = actionBar.getBoundingClientRect()
+                const windowOffset =window.pageYOffset
+
+                if(actionBarOffset.top <= 20 && windowOffset >= 168) {
+                    actionBar.classList.add('fixed')
+                } else {
+                    actionBar.classList.remove('fixed')
+                }
+            }
+        })
+    }
+    const handleVisibility = () => {
+        toggleVisibility()
     }
     useEffect(() => {
         setSliderValue(maxCost)
@@ -90,26 +103,35 @@ function StateMutator() {
             'rarityCheck': rarityFormItems,
             'priceRange': maxCost
         })
+        stickyFilters();
     }, [maxCost])
 
 
     return (
-        <div className='actionsBar' id={'actionBar'}>
-            {/*<h2>Actions</h2>*/}
-            {/*<div className="actionButtonsWrapper">*/}
-            {/*    <button onClick={resetItems}>RESET ITEMS</button>*/}
-            {/*    /!*<button onClick={resetItems2}>RESET ITEMS FROM ANOTHER HOOK</button>*!/*/}
-            {/*    <button style={{marginLeft:30}} onClick={fetchItems}>REFETCH ITEMS</button>*/}
-            {/*    /!*<button onClick={fetchItems2}>REFETCH ITEMS FROM ANOTHER HOOK</button>*!/*/}
-            {/*</div>*/}
-            <h2>Filters</h2>
-            <div className="filtersWrapper">
-                <form onSubmit={(e) => handleFiltersForm(e,filterForm)} onReset={(e)=>handleResetForm(e)}>
-                    <div className="searchByNameWrapper">
-                        <h3>Search by name</h3>
-                        <input type='text' value={searchName} onChange={ (e) => handleSearchName(e) }/>
-                    </div>
-                    <div className="rarityFilterWrapper">
+        <div className={'actionsBarWrapper ' + visibilityClass} id={'actionsBarWrapper'}>
+            <div className={'actionsBar '} id={'actionBar'}>
+                <div className="actionsToggle" onClick={(e) => handleVisibility()}>
+                    <FontAwesomeIcon icon={faFilter} size="lg" /> Filters
+                </div>
+                {visibility ?   <div className="closeFilters" onClick={(e) => handleVisibility()}>
+                    <FontAwesomeIcon icon={faTimes} size="md" color={'#ffffff'} />
+                </div> : ''  }
+
+                {/*<h2>Actions</h2>*/}
+                {/*<div className="actionButtonsWrapper">*/}
+                {/*    <button onClick={resetItems}>RESET ITEMS</button>*/}
+                {/*    /!*<button onClick={resetItems2}>RESET ITEMS FROM ANOTHER HOOK</button>*!/*/}
+                {/*    <button style={{marginLeft:30}} onClick={fetchItems}>REFETCH ITEMS</button>*/}
+                {/*    /!*<button onClick={fetchItems2}>REFETCH ITEMS FROM ANOTHER HOOK</button>*!/*/}
+                {/*</div>*/}
+                <h2>Filters</h2>
+                <div className="filtersWrapper">
+                    <form onSubmit={(e) => handleFiltersForm(e,filterForm)} onReset={(e)=>handleResetForm(e)}>
+                        <div className="searchByNameWrapper">
+                            <h3>Search by name</h3>
+                            <input type='text' value={searchName} onChange={ (e) => handleSearchName(e) }/>
+                        </div>
+                        <div className="rarityFilterWrapper">
 
                             <div className="formHeader">
                                 <h3>Rarity</h3>
@@ -150,10 +172,11 @@ function StateMutator() {
                                     labels={sliderLayers}
                                 />
                                 : ''}
-                        <button style={{marginTop: 70, marginRight: 5}} type="reset">RESET</button>
-                        <button style={{marginTop: 70}} type='submit' value='submit'>SUBMIT FILTERS</button>
-                    </div>
-                </form>
+                            <button style={{marginTop: 70, marginRight: 5}} type="reset">RESET</button>
+                            <button style={{marginTop: 70}} type='submit' value='submit'>SUBMIT FILTERS</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

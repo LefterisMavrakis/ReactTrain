@@ -19,6 +19,9 @@ export default function UseCounter(props) {
         setCounter(count)
     }
 
+    const resetCounter = () => {
+        setCounter(1)
+    }
 
-    return {counter, increaseCounter, decreaseCounter}
+    return {counter, increaseCounter, decreaseCounter, resetCounter}
 }

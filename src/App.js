@@ -20,6 +20,18 @@ function App() {
                         {/*</CartContextProvider>*/}
                         <Route path="/shop/:id" component={ItemDetails}/>
                     </Switch>
+                    <div className={'containerWrapper footer'}>
+                        <div className="container">
+                            <div className="footerInner">
+                                <div className="footerCopyrights">
+                                    React Shop &copy;. All rights reserved.
+                                </div>
+                                <div className="footerCredits">
+                                    Website Development by Lefteris Mavrakis
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </GlobalContextProvider>
         </Router>

@@ -4,13 +4,13 @@ function About() {
             <div className="container">
                 <div className="containerPage">
                     <div className="aboutInfo">
-                        <h2>About this website:</h2>
+                        <h2 className={'generalTitle'}>About this website</h2>
                         <p>
                             This application was made for training purposes in react and there is no commercial transaction through it.
                         </p>
                         <div className="trainList">
-                            <h2>
-                                Training Sections:
+                            <h2 className={'generalTitle'}>
+                                Training Sections
                             </h2>
 
                                 <ul>
@@ -24,8 +24,8 @@ function About() {
                                 </ul>
 
                         </div>
-                        <h2>
-                            Watch on Github :
+                        <h2 className={'generalTitle'}>
+                            Watch on Github:
                             <a href={'https://github.com/LefterisMavrakis/ReactTrain'} target={'_blank'}>
                                 here
                             </a>

@@ -12,7 +12,7 @@ function ItemDetails({match}) {
     const [item, setItem] = useState({})
     const {addToCart} = UseCart()
     const {buttonPress, handleMouseDown, handleMouseUp} = useButtonPress()
-    const {counter, increaseCounter, decreaseCounter} = UseCounter()
+    const {counter, increaseCounter, decreaseCounter, resetCounter} = UseCounter()
 
     const fetchItem = async () => {
         const response = await axios.get(`https://fortnite-api.theapinetwork.com/item/get?id=${match.params.id}`)
@@ -23,6 +23,7 @@ function ItemDetails({match}) {
     const handleAddToCartDetails = (item, quantity) => {
         const itemToAdd = items.find(stateItem => stateItem.itemId === item.itemId)
         addToCart(itemToAdd, quantity)
+        resetCounter()
     }
 
     useEffect( () => {
@@ -55,6 +56,7 @@ function ItemDetails({match}) {
                                     </div>
                                     : 'No video provided'}
                                 <div className="cartItemQuantity">
+                                    Quantity:
                                     <div className={'quantityBtn'} onClick={(e)=> decreaseCounter(e)}>
                                         <FontAwesomeIcon icon={faMinus} size="sm" color={'#000000'} />
                                     </div>

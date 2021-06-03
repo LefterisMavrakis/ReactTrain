@@ -1,6 +1,6 @@
 import UseCart from "../hooks/use-cart";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faShoppingCart, faPlus, faMinus} from "@fortawesome/free-solid-svg-icons";
+import {faShoppingCart, faPlus, faMinus, faTimes} from "@fortawesome/free-solid-svg-icons";
 import UseElementVisibility from "../hooks/use-element-visibility";
 
 
@@ -27,7 +27,7 @@ function Cart() {
         <div className="cartWrapper">
             <div className="cartIconWrapper" onClick={toggleVisibility}>
                 <div className="cartIcon">
-                    <FontAwesomeIcon icon={faShoppingCart} size="2x" />
+                    <FontAwesomeIcon icon={faShoppingCart} size="lg" />
                 </div>
                 <div className="cartQuantity">
                     {
@@ -39,6 +39,9 @@ function Cart() {
             </div>
 
             <div className={'cartPopupWrapper ' + visibilityClass}>
+                {visibility ?   <div className="closeFilters" onClick={(e) => {e.stopPropagation(); toggleVisibility()}}>
+                    <FontAwesomeIcon icon={faTimes} size="md" color={'#ffffff'} />
+                </div> : ''  }
                 <div className="cartItemsWrapper">
                     {cartItems ?
                         cartItems.map((item, index) => {
