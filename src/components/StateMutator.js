@@ -11,8 +11,9 @@ import UseElementVisibility from "../hooks/use-element-visibility";
 
 function StateMutator() {
     // const [items, setItems] = useContext(ItemContext)
-    const {fetchItems, maxCost, minCost, makeFiltering} = UseItems()
+    const {items,fetchItems, maxCost, minCost, makeFiltering} = UseItems()
     // const [resetItems2, fetchItems2] = UseAnotherHook()
+    const [rarityOptions, setRarityOptions] = useState([])
     const [rarityFormItems, setRarityFormItems] = useState(new Set())
     const [sliderValue, setSliderValue] = useState(maxCost)
     const [searchName, setSearchName] = useState('')
@@ -28,9 +29,18 @@ function StateMutator() {
         [maxCost / 2]: `${maxCost / 2}`,
         [maxCost]: `${maxCost}`
     }
-
     const {visibility, toggleVisibility} = UseElementVisibility();
     const visibilityClass = visibility === true ? 'visible' : ''
+
+    const handleRarityOptions = () => {
+        let rarityOptionsToSet = new Set()
+        items.forEach(item=> {
+            rarityOptionsToSet.add(item.item.rarity)
+        })
+        rarityOptionsToSet = Array.from(rarityOptionsToSet)
+        setRarityOptions(rarityOptionsToSet)
+    }
+
     const handleSearchName = (e) => {
         e.preventDefault()
         setSearchName(e.target.value)
@@ -79,7 +89,6 @@ function StateMutator() {
     }
     const stickyFilters = () => {
         window.addEventListener('scroll', function() {
-            console.log('scrolling')
             const actionBar = document.getElementById('actionsBarWrapper')
             if(actionBar){
                 const actionBarOffset = actionBar.getBoundingClientRect()
@@ -104,8 +113,8 @@ function StateMutator() {
             'priceRange': maxCost
         })
         stickyFilters();
+        handleRarityOptions();
     }, [maxCost])
-
 
     return (
         <div className={'actionsBarWrapper ' + visibilityClass} id={'actionsBarWrapper'}>
@@ -136,24 +145,16 @@ function StateMutator() {
                             <div className="formHeader">
                                 <h3>Rarity</h3>
                             </div>
-                            <div className="rarityFilter">
-                                <input  type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='epicRarityFilter' value='epic'/>
-                                <label className={'rarityCheckbox'} htmlFor='epicRarityFilter'>
-                                    Epic
-                                </label>
-                            </div>
-                            <div className="rarityFilter">
-                                <input type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='rareRarityFilter' value='rare'/>
-                                <label className={'rarityCheckbox'} htmlFor='rareRarityFilter'>
-                                    Rare
-                                </label>
-                            </div>
-                            <div className="rarityFilter">
-                                <input type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='uncommonRarityFilter' value='uncommon'/>
-                                <label className={'rarityCheckbox'} htmlFor='uncommonRarityFilter'>
-                                    Uncommon
-                                </label>
-                            </div>
+                            {rarityOptions.map(option=> {
+                                return (
+                                    <div className="rarityFilter" key={option}>
+                                        <input type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id={option + 'RarityFilter'} value={option}/>
+                                        <label className={'rarityCheckbox'} htmlFor={option + 'RarityFilter'}>
+                                            {option.charAt(0).toUpperCase() + option.slice(1)}
+                                        </label>
+                                    </div>
+                                )
+                            })}
                             <div className="rarityFilter">
                                 <input type='checkbox' onInput={(e) => handleRarityFormItems(e.target)} name='rarityFilter' id='allRarityFilter' value='all'/>
                                 <label className={'rarityCheckbox'} htmlFor='allRarityFilter'>
